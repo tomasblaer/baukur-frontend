@@ -5,9 +5,13 @@ function App() {
 
   return (
     <div>
-      <a href="/login">Login</a>
+      <a href="/login"><button>Login</button></a>
       <br/>
-      <a href="/categories">Categories</a>
+      <a href="/register"><button>Register</button></a>
+      <br/>
+      <a href="/categories"><button>Categories</button></a>
+      <br/>
+      <a href="/expenses"><button>Expenses</button></a>
     </div>
   )
 }

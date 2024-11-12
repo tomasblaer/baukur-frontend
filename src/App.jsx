@@ -1,10 +1,13 @@
 import './App.css'
+import Header from './components/Header'
 
 function App() {
 
 
   return (
-    <div className="">
+    <>
+    <Header />
+      <div>
             <h1 className="text-3xl mt-20 mb-4 md:text-6xl text-center bg-gradient-to-r from-rose-500 to-rose-500 text-white font-semibold p-4 rounded-md w-fit">
               Sparaðu með Bauk🐷
             </h1>
@@ -15,7 +18,8 @@ function App() {
             <a href="/categories"><button>Categories</button></a>
             <br/>
             <a href="/expenses"><button>Expenses</button></a>
-        </div>
+      </div>
+    </>
   )
 }
 

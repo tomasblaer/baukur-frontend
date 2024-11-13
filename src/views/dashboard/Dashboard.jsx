@@ -24,12 +24,12 @@ function Dashboard() {
 
   useEffect(() => {
     fetchCategories();
-  }, [fetchCategories]);
+  }, []);
 
   return (
-    <div className={`flex flex-row gap-2`}>
-      <CategoryPanel categories={categories} fetchCategories={fetchCategories} setSelectedCategory={setSelectedCategory} />
-      <ExpensePanel selectedCategory={selectedCategory} />
+    <div className={`grid gap-2 auto-cols-auto ${selectedCategory && '!grid-cols-2'}`}>
+      <CategoryPanel categories={categories} fetchCategories={fetchCategories} setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
+      <ExpensePanel selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} fetchCategories={fetchCategories} />
     </div>
   );
 }

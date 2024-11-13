@@ -8,6 +8,9 @@ export default {
     extend: {
       transitionProperty: {
         'width': 'width',
+      },
+      screens: {
+        '4xl': '2560px',
       }
     },
   },

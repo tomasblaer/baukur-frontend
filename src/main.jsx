@@ -10,6 +10,7 @@ import Expenses from './views/expenses/Expenses.jsx'
 import { Toaster } from 'react-hot-toast'
 import Dashboard from './views/dashboard/Dashboard.jsx'
 import Header from './components/Header.jsx'
+import User from './views/user/User.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.withCredentials = true;
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <Dashboard />,
+  },
+  {
+    path: '/user',
+    element: <User/>,
   }
 ]);
 

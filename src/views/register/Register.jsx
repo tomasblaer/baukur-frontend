@@ -24,10 +24,11 @@ function Register() {
   }, [email, password]);
 
   return (
-      <div>
-          <input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-          <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-          <button onClick={onRegister}>Register</button>
+      <div className="flex flex-col bg-gray-100 p-28 rounded-xl gap-4">
+          <h1 className="text-2xl font-semibold">Register</h1>
+          <input className="p-2 rounded-lg" type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+          <input className="p-2 rounded-lg" type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+          <button className="p-2 rounded-lg bg-gray-50 hover:bg-gray-200 transition-all" onClick={onRegister}>Submit</button>
       </div>
   )
 }

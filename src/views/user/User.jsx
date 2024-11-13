@@ -87,9 +87,8 @@ function User() {
 
   const deleteAllHidden = useCallback(() => {
     const ids = hiddenCategories.map(category => category.id);
-    axios.delete('/categories/deleteMany', {
-      ids,
-    }).then(() => {
+    axios.post('/categories/deleteMany', ids
+    ).then(() => {
       toast.success('Deleted all hidden categories');
       getHiddenCategories();
     }).catch(error => {

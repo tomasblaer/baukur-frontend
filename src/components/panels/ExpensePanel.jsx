@@ -189,7 +189,7 @@ function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories }
           ))}
         </div>
         <ConfirmationModal
-          title="Delete category"
+          title="Delete expense"
           message={`Are you sure you want to delete ${expenseToDelete?.name}?`}
           isOpen={!!expenseToDelete}
           setIsOpen={setExpenseToDelete}

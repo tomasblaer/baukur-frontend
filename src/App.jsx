@@ -1,25 +1,34 @@
+import { useEffect } from 'react';
 import './App.css'
-import Header from './components/Header'
+import useUser from './components/hooks/UseUser'
 
 function App() {
+  const user = useUser();
+
+  useEffect(() => {
+    if (user) window.location.href = '/dashboard';
+  }, [user]);
 
 
   return (
-    <>
-    <Header />
-      <div>
-            <h1 className="text-3xl mt-20 mb-4 md:text-6xl text-center bg-gradient-to-r from-rose-500 to-rose-500 text-white font-semibold p-4 rounded-md w-fit">
-              Sparaðu með Bauk🐷
-            </h1>
-            <a href="/login"><button>Login</button></a>
-            <br/>
-            <a href="/register"><button className="text-4xl hover:opacity-85 hover:scale-110 transition duration-300 mt-6 bg-gradient-to-r from-rose-600 to-rose-600" size="lg">Prófaðu núna</button></a>
-            <br/>
-            <a href="/categories"><button>Categories</button></a>
-            <br/>
-            <a href="/expenses"><button>Expenses</button></a>
-      </div>
-    </>
+    <div className='border rounded-lg pb-10'>
+        <div className="transition-all text-center bg-gradient-to-br from-rose-400 to-pink-200 *:hover:scale-105 text-white font-semibold p-4 rounded-tl-md rounded-tr-md w-fit mb-10 cursor-pointer" onClick={() => window.location.href = '/register'}>
+          <h1 className="text-3xl md:text-4xl transition-all">Sparaðu með Bauk🐷</h1>
+        </div>
+        <div className="flex flex-col justify-center gap-8">
+          {user ? (
+            <>
+              <a href="/categories" className='w-1/2 mx-auto'><button className='w-full'>Categories</button></a>
+              <a href="/expenses" className='w-1/2 mx-auto'><button className='w-full'>Expenses</button></a>
+            </>
+          ) : (
+            <>
+              <a href="/login" className='w-1/2 mx-auto'><button className='w-full'>Login</button></a>
+              <a href="/register" className='w-1/2 mx-auto'><button className='w-full'>Register</button></a>
+            </>
+          )}
+        </div>
+    </div>
   )
 }
 

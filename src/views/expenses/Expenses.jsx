@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function Expenses() {
   const [categoryId, setCategoryId] = useState(null);
@@ -21,10 +22,10 @@ function Expenses() {
         alert('Success');
         console.log(data);
       })
-      .catch(error => {
-        console.error(error)
+      .catch(() => {
+        toast.error('Error');
       });
-  }, [name, comment, amount, date]);
+  }, [name, comment, amount, date, categoryId]);
 
   const getCategories = useCallback(() => {
     axios.get('/categories', {

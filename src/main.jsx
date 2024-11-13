@@ -4,10 +4,12 @@ import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import axios from 'axios'
-import Login from './views/login/Login.jsx'
 import Categories from './views/categories/Categories.jsx'
 import Register from './views/register/Register.jsx'
 import Expenses from './views/expenses/Expenses.jsx'
+import { Toaster } from 'react-hot-toast'
+import Dashboard from './views/dashboard/Dashboard.jsx'
+import Header from './components/Header.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.withCredentials = true;
@@ -26,10 +28,6 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/login',
-    element: <Login />
-  },
-  {
     path: '/categories',
     element: <Categories />,
   },
@@ -40,11 +38,17 @@ const router = createBrowserRouter([
   {
     path: '/expenses',
     element: <Expenses />,
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Header />
     <RouterProvider router={router} />
+    <Toaster />
   </StrictMode>,
 )

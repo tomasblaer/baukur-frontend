@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -10,11 +11,15 @@ function Register() {
       email,
       password,
     })
-      .then(({ data }) => {
-        alert(data);
+      .then(() => {
+        window.location.href = '/login';
       })
       .catch(error => {
-        console.error(error)
+        if (error.response.status === 409) {
+          return toast.error('User with that email already exists!');
+        } else {
+          return toast.error('Failed to create new user');
+        }
       });
   }, [email, password]);
 

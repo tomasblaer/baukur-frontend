@@ -127,7 +127,7 @@ function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories }
           className="outline-none border h-10 p-2 col-start-2 row-start-2"
         />
         <button onClick={onSubmit} className="rounded-none rounded-b-lg h-10 row-start-3 col-span-2">
-          Add expense
+          {selectedExpense ? 'Edit expense' : 'Add expense'}
         </button>
       </div>
       

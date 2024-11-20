@@ -11,17 +11,10 @@ import { Toaster } from 'react-hot-toast'
 import Dashboard from './views/dashboard/Dashboard.jsx'
 import Header from './components/Header.jsx'
 import User from './views/user/User.jsx'
+import Stats from './views/stats/Stats.jsx'
 
 axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.withCredentials = true;
-axios.interceptors.response.use(response =>{
-  return response;
-}, error => {
-  if (error.response.status === 403) {
-    window.location.href = '/login';
-  }
-  return Promise.reject(error);
-});
 
 const router = createBrowserRouter([
   {
@@ -47,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: '/user',
     element: <User/>,
+  },
+  {
+    path: '/stats',
+    element: <Stats />,
   }
 ]);
 

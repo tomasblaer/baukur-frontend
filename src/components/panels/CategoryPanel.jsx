@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaEyeSlash, FaTrash } from "react-icons/fa";
+import { FaEyeSlash, FaSpinner, FaTrash } from "react-icons/fa";
 import ConfirmationModal from "../ConfirmationModal";
 
 function CategoryPanel({
@@ -9,6 +9,7 @@ function CategoryPanel({
   fetchCategories,
   setSelectedCategory,
   selectedCategory,
+  loading,
 }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -151,20 +152,19 @@ function CategoryPanel({
           {selectedCategory ? "Edit category" : "Add category"}
         </button>
       </div>
-      <div className="rounded-lg border w col-start-1 h-fit">
+      <div className="rounded-lg relative border col-start-1 h-fit">
+        <div className={`w-full absolute flex h-full bg-gray-200 rounded-lg transition-all duration-300 ${loading ? 'opacity-30 z-50' : 'opacity-0 -z-50'}`}>
+          {loading && <FaSpinner className="m-auto animate-spin static w-fit h-fit" size={80} />}
+        </div>
         <div>
           <h1 className="border-b text-3xl font-semibold p-6">Categories</h1>
         </div>
-        <div className="flex flex-col h-[60vh] bg-gray-50 rounded-b-lg overflow-scroll no-scrollbar">
-          {categories.map((category, index) => (
+        <div className="flex flex-col h-[40vh] 4xl:h-[55vh] transition-all bg-gray-50 rounded-b-lg overflow-scroll no-scrollbar">
+          {categories.map((category) => (
             <>
               <button
                 key={category.id}
-                className={`bg-gray-100 rounded-none h-20 ${
-                  index === categories.length - 1 && "rounded-b-lg"
-                } ${
-                  category.id === selectedCategory?.id && "!bg-gray-200"
-                } hover:bg-gray-200 transition-all duration-300 min-h-16`}
+                className={`bg-gray-100 rounded-none min-h-20 hover:bg-gray-200 transition-all duration-300`}
                 onClick={(e) => onSetSelectedCategory(e, category)}
               >
                 <div className="flex justify-between">

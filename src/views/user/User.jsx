@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { FaEye } from "react-icons/fa";
+import ProtectedRoute from "../../components/ProtectedRoute";
 
 function User() {
   const user = useUser();
@@ -99,50 +100,52 @@ function User() {
 
 
   return (
-    <div className="grid grid-cols-2 gap-20">
-      <div className="rounded-lg bg-gray-100 p-8">
-        <div>
-          <h1 className="text-3xl font-semibold">Hi, {user?.email}!</h1>
-        </div>
-        <hr className="h-px my-8"/>
-        <div>
-          <p className="font-semibold my-2">User settings</p>
-          <div className="flex gap-2 flex-col">
-            <input className="p-2 rounded-lg" type="text" placeholder="New email" value={newEmail} onChange={e => setNewEmail(e.target.value)} />
-            <input className="p-2 rounded-lg" type="password" placeholder="New password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
-            <button onClick={editUser} className="bg-gray-200 text-black p-2 rounded-md">Save</button>
+    <ProtectedRoute user={user}>
+      <div className="grid grid-cols-2 gap-20">
+        <div className="rounded-lg border p-20">
+          <div>
+            <h1 className="text-3xl font-semibold">Hi, {user?.email}!</h1>
+          </div>
+          <hr className="h-px my-8"/>
+          <div>
+            <p className="font-semibold my-2">User settings</p>
+            <div className="flex gap-2 flex-col">
+              <input className="p-2 rounded-lg border" type="text" placeholder="New email" value={newEmail} onChange={e => setNewEmail(e.target.value)} />
+              <input className="p-2 rounded-lg border" type="password" placeholder="New password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
+              <button onClick={editUser} className="bg-gray-50 hover:bg-gray-100 border-gray-200 text-black p-2 rounded-md">Save</button>
+            </div>
+          </div>
+          <hr className="h-px my-8"/>
+          <div>
+            <button className="w-full bg-gray-50 hover:bg-red-400 border-gray-200 text-black transition-all" onClick={() => setDeleteUserModal(true)}>Delete user</button>
           </div>
         </div>
-        <hr className="h-px my-8"/>
-        <div>
-          <button className="w-full bg-red-500 text-white hover:bg-red-400" onClick={() => setDeleteUserModal(true)}>Delete user</button>
-        </div>
-      </div>
-      <div className="rounded-lg bg-gray-100 p-8">
-        <h1 className="text-3xl font-semibold">Hidden categories</h1>
-        <div className="bg-white h-3/5 mt-6 rounded-lg overflow-scroll no-scrollbar">
-          {hiddenCategories.map(category => (
-            <div key={category.id} className
-            ="flex justify-between p-2 border-b">
-              <p className="my-auto font-semibold">{category.name}</p>
-              <div className="h-fit my-auto cursor-pointer " onClick={() => unHideCategory(category)}>
-                <FaEye className="opacity-30"/>
+        <div className="rounded-lg border p-20">
+          <h1 className="text-3xl font-semibold">Hidden categories</h1>
+          <div className="bg-gray-50 h-3/5 mt-6 rounded-lg overflow-scroll no-scrollbar">
+            {hiddenCategories.map(category => (
+              <div key={category.id} className
+              ="flex justify-between p-2 border-b">
+                <p className="my-auto font-semibold">{category.name}</p>
+                <div className="h-fit my-auto cursor-pointer " onClick={() => unHideCategory(category)}>
+                  <FaEye className="opacity-30"/>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+            <button className="w-full  bg-gray-50 hover:bg-red-400 border-gray-200 text-black transition-all my-12" onClick={() => deleteAllHidden()}>
+              Delete all
+            </button>
         </div>
-          <button className="w-full bg-red-500 text-white hover:bg-red-400 my-12" onClick={() => deleteAllHidden()}>
-            Delete all
-          </button>
+        <ConfirmationModal
+          title="Delete account"
+          message={`Are you sure you want to delete your account?`}
+          isOpen={!!deleteUserModal}
+          setIsOpen={setDeleteUserModal}
+          confirmationCallback={() => deleteUser()}
+        />
       </div>
-      <ConfirmationModal
-        title="Delete account"
-        message={`Are you sure you want to delete your account?`}
-        isOpen={!!deleteUserModal}
-        setIsOpen={setDeleteUserModal}
-        confirmationCallback={() => deleteUser()}
-      />
-    </div>
+    </ProtectedRoute>
   );
 }
 

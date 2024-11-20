@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaTrash } from "react-icons/fa";
+import { FaSpinner, FaTrash } from "react-icons/fa";
 import { validateExpense } from "../../util/util";
 import { FaX } from "react-icons/fa6";
 import ConfirmationModal from "../ConfirmationModal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories }) {
+function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories, loading }) {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(new Date());
 
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [expenseToDelete, setExpenseToDelete] = useState(null);
@@ -56,6 +58,30 @@ function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories }
     },
     [selectedExpense, setSelectedExpense]
   );
+
+  const editExpense = useCallback(() => {
+    axios
+      .patch("/expenses", {
+        name,
+        comment,
+        amount,
+        date,
+        id: selectedExpense?.id,
+        categoryId: selectedCategory?.id,
+      })
+      .then(() => {
+        toast.success(`Edited expense ${name}`);
+        setName("");
+        setComment("");
+        setAmount(0);
+        setDate(new Date().toISOString().split("T")[0]);
+        fetchCategories();
+      })
+      .catch((error) => {
+        toast.error("Failed to edit expense");
+        console.error(error);
+      });
+  }, [name, comment, amount, date, selectedExpense?.id, selectedCategory?.id, fetchCategories]);
 
   const deleteExpense = useCallback(
     (expense) => {
@@ -118,26 +144,27 @@ function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories }
           onChange={(e) => setAmount(e.target.value)}
           className="outline-none border h-10 p-2 col-start-1 row-start-2"
         />
-        <input
-          type="date"
-          placeholder="Date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          data-date-format="DD MMMM YYYY"
-          className="outline-none border h-10 p-2 col-start-2 row-start-2"
+        <DatePicker
+          selected={date}
+          onChange={(date) => setDate(date)}
+          dateFormat="dd-MM-yyyy"
+          className="outline-none border h-10 w-full p-2 col-start-2 row-start-2"
         />
-        <button onClick={onSubmit} className="rounded-none rounded-b-lg h-10 row-start-3 col-span-2">
+        <button onClick={() => selectedExpense ? editExpense() : onSubmit()} className="rounded-none rounded-b-lg h-10 row-start-3 col-span-2">
           {selectedExpense ? 'Edit expense' : 'Add expense'}
         </button>
       </div>
       
       <div
-        className={`bg-gray-50 rounded-lg ${
+        className={`bg-gray-50 relative rounded-lg ${
           selectedCategory && "border"
-        } h-[784.33px] mt-auto transition-widthv duration-300 ${
+        } h-[40vh] 4xl:h-[55vh] mt-auto transition-width duration-300 ${
           selectedCategory ? "w-full" : "w-0"
         } col-start-2 row-start-2 min-h-full`}
       >
+        <div className={`absolute h-full w-full flex bg-gray-200 rounded-lg transition-all duration-300 ${loading ? 'opacity-30 z-50' : 'opacity-0 -z-50'}`}>
+          {loading && <FaSpinner className="m-auto animate-spin static w-fit h-fit" size={80} />}
+        </div>
         
         <div>
           <h1
@@ -155,20 +182,16 @@ function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories }
             </div>
             {selectedCategory?.name}
           </h1>
-          {selectedCategory?.expenses?.map((expense, index) => (
+          {selectedCategory?.expenses?.map((expense) => (
             <>
               <button
                 key={expense.id}
-                className={`bg-gray-100 rounded-none w-full h-20 ${
-                  index === selectedCategory?.expenses?.length - 1 && "rounded-b-lg"
-                } ${
-                  expense.id === selectedExpense?.id && "!bg-gray-200"
-                } hover:bg-gray-200 transition-all duration-300 min-h-16`}
+                className={`bg-gray-100 rounded-none w-full min-h-20  hover:bg-gray-200 transition-all duration-300 `}
                 onClick={(e) => onSetSelectedExpense(e, expense)}
               >
                 <div className="flex justify-between">
                   <div className="mx-auto">
-                    <h2 className="text-lg">{`${expense.name} - ${expense.amount}ISK`}</h2>
+                    <h2 className="text-lg">{`${expense.name} - ${expense.amount} kr.`}</h2>
                     <p className="text-sm">{expense.comment}</p>
                   </div>
                   <div

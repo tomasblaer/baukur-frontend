@@ -11,11 +11,8 @@ function useUser() {
     })
       .then(({ data }) => {
         setUser(data)
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }, []);
+      });
+    }, [user]);
 
   return user;
 }

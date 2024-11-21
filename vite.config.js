@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/login': {
-        target: 'http://baukur.onrender.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
         ws: true,
@@ -20,13 +20,13 @@ export default defineConfig({
           });
           proxyReq.on('proxyRes', (proxyRes) => {
             if (proxyRes.headers.location) {
-              proxyRes.headers.location = proxyRes.headers.location.replace('http://baukur.onrender.com', 'http://localhost:3000');
+              proxyRes.headers.location = proxyRes.headers.location.replace('http://localhost:8080', 'http://localhost:3000');
             }
           });
         }
       },
       '/login?error': {
-        target: 'http://baukur.onrender.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
         ws: true,

@@ -98,6 +98,12 @@ function User() {
     });
   }, [getHiddenCategories, hiddenCategories]);
 
+  const logout = useCallback(() => {
+    axios.post('/logout').finally(() => {
+      window.location.href = '/';
+    });
+  }, []);
+
 
   return (
     <ProtectedRoute user={user}>
@@ -116,7 +122,8 @@ function User() {
             </div>
           </div>
           <hr className="h-px my-8"/>
-          <div>
+          <div className="flex flex-col gap-4">
+            <button className="w-full bg-gray-50 hover:bg-red-400 border-gray-200 text-black transition-all" onClick={() => logout()}>Log out</button>
             <button className="w-full bg-gray-50 hover:bg-red-400 border-gray-200 text-black transition-all" onClick={() => setDeleteUserModal(true)}>Delete user</button>
           </div>
         </div>

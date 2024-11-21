@@ -4,7 +4,7 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
-import { FaChartBar, FaChartPie, FaClipboard } from "react-icons/fa";
+import { FaChartBar, FaChartPie } from "react-icons/fa";
 
 function Stats() {
   const user = useUser();
@@ -109,14 +109,14 @@ function Stats() {
           >
             <FaChartPie size={20} className="m-auto" />
           </button>
-          <button
+          {/* <button
             className={`transition-all w-20 h-12 ${
               selectedGraph === "comp" ? "bg-pink-200" : ""
             }`}
             onClick={() => setSelectedGraph("comp")}
           >
             <FaClipboard size={20} className="m-auto" />
-          </button>
+          </button> */}
         </div>
         <hr className="my-2" />
         {expenses?.length > 0 ? (
@@ -182,7 +182,7 @@ function Stats() {
                 height={window.innerWidth >= 2560 ? 600 : 400}
               />
             ) : (
-              selectedGraph === "pie" && (
+              selectedGraph === "pie" ? (
                 <PieChart
                   series={[
                     {
@@ -193,7 +193,14 @@ function Stats() {
                   height={window.innerWidth >= 2560 ? 400 : 300}
                 />
               )
-            )}
+            : selectedGraph === "comp" ? (
+              <div>
+                
+              </div>
+
+            ) : (
+              <h1>No data</h1>
+            ))}
           </>
         ) : (
           <h1>No data</h1>

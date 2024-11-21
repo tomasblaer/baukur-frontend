@@ -13,7 +13,7 @@ import Header from './components/Header.jsx'
 import User from './views/user/User.jsx'
 import Stats from './views/stats/Stats.jsx'
 
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'https://baukur.onrender.com'
 axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter([

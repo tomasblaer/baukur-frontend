@@ -48,6 +48,7 @@ function CategoryPanel({
         name,
         description,
         id: selectedCategory?.id,
+        defaultCategoryId: selectedCategory?.defaultCategoryId,
       })
       .then(() => {
         toast.success(`Edited category ${name}`);
@@ -59,7 +60,7 @@ function CategoryPanel({
         toast.error("Failed to edit category");
         console.error(error);
       });
-  }, [name, description, selectedCategory?.id, fetchCategories]);
+  }, [name, description, selectedCategory?.id, selectedCategory?.defaultCategoryId, fetchCategories]);
 
   const deleteCategory = useCallback(
     (category) => {
@@ -136,6 +137,7 @@ function CategoryPanel({
           value={name}
           minLength={1}
           onChange={(e) => setName(e.target.value)}
+          disabled={selectedCategory?.defaultCategoryId}
           className="outline-none border h-10 rounded-l-lg p-2"
         />
         <input

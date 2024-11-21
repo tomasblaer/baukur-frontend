@@ -7,6 +7,7 @@ import { FaX } from "react-icons/fa6";
 import ConfirmationModal from "../ConfirmationModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories, loading }) {
   const [name, setName] = useState("");
@@ -186,13 +187,14 @@ function ExpensePanel({ selectedCategory, setSelectedCategory, fetchCategories, 
             <>
               <button
                 key={expense.id}
-                className={`bg-gray-100 rounded-none w-full min-h-20  hover:bg-gray-200 transition-all duration-300 `}
+                className={`bg-gray-100 rounded-none w-full h-20  hover:bg-gray-200 transition-all duration-300 `}
                 onClick={(e) => onSetSelectedExpense(e, expense)}
               >
                 <div className="flex justify-between">
                   <div className="mx-auto">
                     <h2 className="text-lg">{`${expense.name} - ${expense.amount} kr.`}</h2>
                     <p className="text-sm">{expense.comment}</p>
+                    <p className="text-sm">{expense?.date && moment(expense.date).format("DD-MM-yyyy")}</p>
                   </div>
                   <div
                     className="my-auto"

@@ -3,9 +3,6 @@ export function validateExpense(expense) {
   if (!expense.name) {
     required.push("name");
   } 
-  if (!expense.comment) {
-    required.push("comment");
-  } 
   if (!expense.amount) {
     required.push("amount");
   }
